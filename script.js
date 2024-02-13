@@ -7,6 +7,7 @@ const firstTerm = document.querySelector("#displayCurrent");
 const operationDisplay = document.querySelector('#operationDisplay');
 const mockup = document.querySelector('#mockup');
 const clearBtn = document.querySelector('#clear-btn');
+const backSpaceBtn = document.querySelector('#back-space');
 
 let firstTermValue = '';
 let secondTermValue = '';
@@ -30,20 +31,35 @@ const updateOperator = (newValue) => {
 }
 
 // CLEAR ACTIONS
+
+backSpaceBtn.addEventListener("click", () => cancelLastDigit());
 clearBtn.addEventListener("click", () => resetCalculator());
+
+const resetDefaultDisplay = () => mockup.style.display = "block";
 
 const clearDisplay = () => {
   firstTerm.innerText = '';
   secondTerm.innerText = '';
   operationDisplay.innerText = null;
 
-  // Reset deafult value
-  mockup.style.display = "block"
-} 
+  resetDefaultDisplay();
+}
+
+const clearFirstTerm = () => {
+  firstTermValue = '';
+  firstTerm.innerText = '';
+
+  if(!operatorValue && !secondTermValue) resetDefaultDisplay();
+}
+
+const clearSecondTerm = () => {
+  secondTermValue = '';
+  secondTerm.innerText = '';
+}
 
 const clearTerms = () => {
-  firstTermValue = '';
-  secondTermValue = '';
+  clearFirstTerm();
+  clearSecondTerm();
 }
 
 const clearOperator = () => {
