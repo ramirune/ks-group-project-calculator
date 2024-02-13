@@ -6,27 +6,40 @@ const secondTerm = document.querySelector('#displayPrevious');
 const firstTerm = document.querySelector("#displayCurrent");
 const operationDisplay = document.querySelector('#operationDisplay');
 const mockup = document.querySelector('#mockup');
+const clearBtn = document.querySelector('#clear-btn');
 
 let firstTermValue = '';
 let secondTermValue = '';
+let operatorValue = '';
 
 // CLEAR ACTIONS
+clearBtn.addEventListener("click", () => resetCalculator());
 
-const clearDisplay = () => displayedValue = null;
+const clearDisplay = () => {
+  firstTerm.innerText = '';
+  secondTerm.innerText = '';
+  operationDisplay.innerText = null;
+
+  // Reset deafult value
+  mockup.style.display = "block"
+} 
 
 const clearTerms = () => {
-    term1 = null;
-    term2 = null;
+  firstTermValue = '';
+  secondTermValue = '';
 }
 
-const clearOperator = () => operator = null;
+const clearOperator = () => {
+  operatorValue = null;
+  operationDisplay.innerText = '';
+}
 
 const clearResult = () => result = null;
 
 const resetCalculator = () => {
     clearTerms();
     clearOperator();
-    clearResult();
+    // clearResult();
     clearDisplay();
 }
 
@@ -75,7 +88,6 @@ equalSign.addEventListener("click", function () {});
 // console.log(divide(4, 2));
 
 // INPUTS
-
 numbers.forEach(number => {
     number.addEventListener("click", () => {
         if (mockup.style.display = "block") {
@@ -83,7 +95,6 @@ numbers.forEach(number => {
         }
         firstTerm.innerText += number.innerText;
         firstTermValue += number.innerText;
-
     })
 })
 
@@ -96,7 +107,7 @@ operations.forEach(button => {
         firstTerm.innerText = '';
         firstTermValue = '';
         operationDisplay.innerText = button.innerText;
+        operatorValue = button.innerText;
     })
 })
-
 
