@@ -1,119 +1,38 @@
-const numbers = document.querySelectorAll(".num");
-const operations = document.querySelectorAll('#operation');
-const clear = document.querySelector('#clear');
-const equals = document.querySelector('#equals');
-const remove = document.querySelector('#remove');
-const secondTerm = document.querySelector('#history-value');
-const firstTerm = document.querySelector("#output-value")
+const numbers = document.querySelectorAll("#num");
+const operations = document.querySelectorAll('#operator');
+const secondTerm = document.querySelector('#displayPrevious');
+const firstTerm = document.querySelector("#displayCurrent");
+const operationDisplay = document.querySelector('#operationDisplay');
+const mockup = document.querySelector('#mockup');
 
-class Calculator {
-    constructor(secondTerm, currentNumber) {
-        this.secondTerm = secondTerm;
-        this.firstTerm = firstTerm;
-        this.clear();
-    }
-    equal() {
+let firstTermValue = '';
+let secondTermValue = '';
 
-    }
-
-    Chooseoperation(operation) {
-        if (this.currentNum === '') return;
-        if (this.previousNum != '') {
-            this.calculate();
-        }
-        this.operation = operation;
-        this.previousNum = this.currentNum;
-        this.currentNum = '';
-    }
-
-    clear() {
-        this.currentNum = '';
-        this.previousNum = '';
-        this.operation = undefined;
-    }
-    delete() {
-        this.currentNum = this.currentNum.toString().slice(0, -1);
-    }
-
-    addNumber(number) {
-        if (number === "." && this.currentNum.includes('.')) return;
-        this.currentNum = this.currentNum.toString() + number.toString();
-    }
-
-    calculate() {
-        let result;
-        const previous = parseFloat(this.previousNum);
-        const current = parseFloat(this.currentNum);
-        if (isNaN(previous) || isNaN(current)) return;
-        switch (this.operation) {
-            case '+':
-                result = previous + current;
-                break
-            case '-':
-                result = previous - current;
-                break
-            case '*':
-                result = previous * current;
-                break
-            case '/':
-                result = previous / current;
-                break
-            case '%':
-                result = previous % current;
-                break
-            default:
-                return;
-
-        }
-        this.currentNum = result;
-        this.operation = undefined;
-        this.previousNum = '';
-    }
-
-    screenNumber() {
-        return
-    }
-
-    refreshScreen() {
-        this.firstTerm.innerText = this.currentNum;
-        if (this.operation != null) {
-            this.secondTerm.innerText = `${this.previousNum} ${this.operation}`;
-        }
-
-    }
-}
-
-const calculator = new Calculator(secondTerm, firstTerm);
 
 numbers.forEach(number => {
     number.addEventListener("click", () => {
-        calculator.addNumber(number.innerText)
-        calculator.refreshScreen()
+        if (mockup.style.display = "block") {
+            mockup.style.display = "none";
+        }
+        firstTerm.innerText += number.innerText;
+        firstTermValue += number.innerText;
+
     })
 })
+
+//firstTermValue is the first numbers inputed and the secondTermValue are the second set of numbers after a usedd operator;
+
+
 
 
 operations.forEach(button => {
     button.addEventListener("click", () => {
-        calculator.Chooseoperation(button.innerText)
-        calculator.refreshScreen()
+        secondTerm.innerText = firstTerm.innerText;
+        secondTermValue = firstTermValue;
+        firstTerm.innerText = '';
+        firstTermValue = '';
+        operationDisplay.innerText = button.innerText;
     })
-})
-
-
-equals.addEventListener("click", () => {
-    calculator.calculate();
-    calculator.refreshScreen();
-})
-
-clear.addEventListener("click", () => {
-    calculator.clear();
-    calculator.refreshScreen();
-})
-
-remove.addEventListener("click", () => {
-    calculator.delete();
-    calculator.refreshScreen();
 })
 
 
