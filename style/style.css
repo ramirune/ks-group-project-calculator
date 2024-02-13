@@ -34,12 +34,26 @@ body {
   margin: 0;
   border-radius: 10px 10px 0 0;
   display: flex;
-  align-items: center;
+  align-items: end;
+  flex-direction: column;
   justify-content: flex-end;
 }
-.calculator-display h1 {
+
+.calculator-display .previous {
+  display: flex;
+  align-items: center;
+}
+
+.calculator-display .current {
+  display: flex;
+  align-items: center;
+}
+
+.calculator-display h1,
+h2,
+p {
   margin: 0;
-  padding: 20px;
+  padding: 10px;
   font-family: "Lucida Sans", sans-serif;
   font-size: 40px;
   font-weight: 100;
@@ -66,12 +80,15 @@ button {
   border-radius: 10px;
   cursor: pointer;
 }
+
 button:hover {
   filter: brightness(130%);
 }
+
 button:active {
   transform: translateY(2px);
 }
+
 button:focus {
   outline: none;
 }
@@ -93,6 +110,7 @@ button:focus {
   color: white;
   font-size: 30px;
 }
+
 .clear:hover {
   background-color: darkred;
 }
@@ -103,6 +121,8 @@ button:focus {
   grid-column: -2;
   grid-row: 2 / span 3;
 }
+
+
 
 /* for screen smaller than 600px */
 @media screen and (max-width: 600px) {
