@@ -1,87 +1,85 @@
-
 // DATA SETUP
 const numbers = document.querySelectorAll("#num");
-const operations = document.querySelectorAll('#operator');
-const secondTerm = document.querySelector('#displayPrevious');
+const operations = document.querySelectorAll("#operator");
+const secondTerm = document.querySelector("#displayPrevious");
 const firstTerm = document.querySelector("#displayCurrent");
-const operationDisplay = document.querySelector('#operationDisplay');
-const mockup = document.querySelector('#mockup');
-const clearBtn = document.querySelector('#clear-btn');
-const backSpaceBtn = document.querySelector('#back-space');
+const operationDisplay = document.querySelector("#operationDisplay");
+const mockup = document.querySelector("#mockup");
+const clearBtn = document.querySelector("#clear-btn");
+const backSpaceBtn = document.querySelector("#back-space");
 
-let firstTermValue = '';
-let secondTermValue = '';
-let operatorValue = '';
+let firstTermValue = "";
+let secondTermValue = "";
+let operatorValue = "";
 
 // TERMS MANAGEMENT
 
 const updateFirstTerm = (newValue) => {
   firstTermValue = newValue;
   firstTerm.innerText = newValue;
-}
+};
 
 const updateSecondTerm = (newValue) => {
   secondTermValue = newValue;
   secondTerm.innerText = newValue;
-}
+};
 
 const updateOperator = (newValue) => {
   operationDisplay.innerText = newValue;
   operatorValue = newValue;
-}
+};
 
 // CLEAR ACTIONS
 
 backSpaceBtn.addEventListener("click", () => cancelLastDigit());
 clearBtn.addEventListener("click", () => resetCalculator());
 
-const resetDefaultDisplay = () => mockup.style.display = "block";
+const resetDefaultDisplay = () => (mockup.style.display = "block");
 
 const clearDisplay = () => {
-  firstTerm.innerText = '';
-  secondTerm.innerText = '';
+  firstTerm.innerText = "";
+  secondTerm.innerText = "";
   operationDisplay.innerText = null;
 
   resetDefaultDisplay();
-}
+};
 
 const clearFirstTerm = () => {
-  firstTermValue = '';
-  firstTerm.innerText = '';
+  firstTermValue = "";
+  firstTerm.innerText = "";
 
-  if(!operatorValue && !secondTermValue) resetDefaultDisplay();
-}
+  if (!operatorValue && !secondTermValue) resetDefaultDisplay();
+};
 
 const clearSecondTerm = () => {
-  secondTermValue = '';
-  secondTerm.innerText = '';
-}
+  secondTermValue = "";
+  secondTerm.innerText = "";
+};
 
 const clearTerms = () => {
   clearFirstTerm();
   clearSecondTerm();
-}
+};
 
 const clearOperator = () => {
-  operatorValue = '';
-  operationDisplay.innerText = '';
-}
+  operatorValue = "";
+  operationDisplay.innerText = "";
+};
 
-const clearResult = () => result = null;
+const clearResult = () => (result = null);
 
 const resetCalculator = () => {
-    clearTerms();
-    clearOperator();
-    // clearResult();
-    clearDisplay();
-}
+  clearTerms();
+  clearOperator();
+  // clearResult();
+  clearDisplay();
+};
 
 const removeLastCharacter = (string) => string.slice(0, -1);
 
 const cancelLastDigit = () => {
-
-  if(firstTermValue){
-    if(firstTermValue.length > 1){
+  if (firstTermValue) {
+    if (firstTermValue.length > 1) {
       updateFirstTerm(removeLastCharacter(firstTermValue));
     } else {
       clearFirstTerm(firstTermValue);
@@ -89,8 +87,7 @@ const cancelLastDigit = () => {
   } else if (operatorValue) {
     clearOperator();
 
-    if (secondTermValue){
-
+    if (secondTermValue) {
       // Switch terms
       updateFirstTerm(secondTermValue);
       // firstTermValue = secondTermValue;
@@ -99,8 +96,7 @@ const cancelLastDigit = () => {
       clearSecondTerm();
     }
   }
-
-}
+};
 
 // OPERATIONS
 
@@ -149,38 +145,34 @@ equalSign.addEventListener("click", function () {});
 // console.log(divide(4, 2));
 
 // INPUTS MANAGEMENT
+number.addEventListener("click", () => {
+  if ((mockup.style.display = "block")) {
+    mockup.style.display = "none";
+  }
 
-numbers.forEach(number => {
-    number.addEventListener("click", () => {
-        if (mockup.style.display = "block") {
-            mockup.style.display = "none";
-        }
-        updateFirstTerm(firstTermValue + number.innerText);
+  if (number.innerText == "." && firstTerm.innerText.includes(".")) return;
+  if (number.innerText == "." && firstTerm.innerText == "") {
+    if (secondTerm.innerText != "") return;
+    mockup.style.display = "block";
+  }
 
-        // OLD
-        // firstTerm.innerText += number.innerText;
-        // firstTermValue += number.innerText;
-    })
-})
+  updateFirstTerm(firstTermValue + number.innerText);
+});
 
 //firstTermValue is the first numbers inputed and the secondTermValue are the second set of numbers after a usedd operator;
 
-operations.forEach(button => {
-    button.addEventListener("click", () => {
+operations.forEach((button) => {
+  button.addEventListener("click", () => {
+    updateSecondTerm(firstTermValue);
 
-        updateSecondTerm(firstTermValue);
+    //OLD
+    // secondTerm.innerText = firstTerm.innerText;
+    // secondTermValue = firstTermValue;
 
-        //OLD
-        // secondTerm.innerText = firstTerm.innerText;
-        // secondTermValue = firstTermValue;
+    clearFirstTerm();
 
-        clearFirstTerm();
-
-        updateOperator(button.innerText);
-
-        // OLD
-        // operationDisplay.innerText = button.innerText;
-        // operatorValue = button.innerText;
-    })
-})
-
+    if (secondTerm.innerText != "") {
+      updateOperator(button.innerText);
+    }
+  });
+});
