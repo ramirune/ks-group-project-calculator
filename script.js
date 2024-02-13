@@ -32,7 +32,7 @@ const clearFirstTerm = () => {
   firstTermValue = '';
   firstTerm.innerText = '';
 
-  if(!operatorValue && !secondTermValue) resetDefaultDisplay();
+  if (!operatorValue && !secondTermValue) resetDefaultDisplay();
 }
 
 const clearSecondTerm = () => {
@@ -53,10 +53,10 @@ const clearOperator = () => {
 const clearResult = () => result = null;
 
 const resetCalculator = () => {
-    clearTerms();
-    clearOperator();
-    // clearResult();
-    clearDisplay();
+  clearTerms();
+  clearOperator();
+  // clearResult();
+  clearDisplay();
 }
 
 const updateFirstTerm = (newValue) => {
@@ -68,8 +68,8 @@ const removeLastCharacter = (string) => string.slice(0, -1);
 
 const cancelLastDigit = () => {
 
-  if(firstTermValue){
-    if(firstTermValue.length > 1){
+  if (firstTermValue) {
+    if (firstTermValue.length > 1) {
       updateFirstTerm(removeLastCharacter(firstTermValue));
     } else {
       clearFirstTerm(firstTermValue);
@@ -77,7 +77,7 @@ const cancelLastDigit = () => {
   } else if (operatorValue) {
     clearOperator();
 
-    if (secondTermValue){
+    if (secondTermValue) {
       // Switch terms
       firstTermValue = secondTermValue;
       firstTerm.innerText = firstTermValue;
@@ -124,7 +124,7 @@ function operate(operator, num1, num2) {
 }
 
 let equalSign = document.querySelector(".equal-sign");
-equalSign.addEventListener("click", function () {});
+equalSign.addEventListener("click", function () { });
 
 // operate("+", 1, 3);
 // console.log(add(1, 2));
@@ -135,25 +135,37 @@ equalSign.addEventListener("click", function () {});
 // INPUTS
 
 numbers.forEach(number => {
-    number.addEventListener("click", () => {
-        if (mockup.style.display = "block") {
-            mockup.style.display = "none";
-        }
-        firstTerm.innerText += number.innerText;
-        firstTermValue += number.innerText;
-    })
+  number.addEventListener("click", () => {
+    if (mockup.style.display = "block") {
+      mockup.style.display = "none";
+    }
+
+    if (number.innerText == '.' && firstTerm.innerText.includes('.')) return;
+    if (number.innerText == '.' && firstTerm.innerText == '') {
+      if (secondTerm.innerText != '') return;
+      mockup.style.display = "block";
+    }
+
+
+    firstTerm.innerText += number.innerText;
+
+    firstTermValue += number.innerText;
+
+  })
 })
 
 //firstTermValue is the first numbers inputed and the secondTermValue are the second set of numbers after a usedd operator;
 
 operations.forEach(button => {
-    button.addEventListener("click", () => {
-        secondTerm.innerText = firstTerm.innerText;
-        secondTermValue = firstTermValue;
-        firstTerm.innerText = '';
-        firstTermValue = '';
-        operationDisplay.innerText = button.innerText;
-        operatorValue = button.innerText;
-    })
+  button.addEventListener("click", () => {
+    secondTerm.innerText = firstTerm.innerText;
+    secondTermValue = firstTermValue;
+    firstTerm.innerText = '';
+    firstTermValue = '';
+    if (secondTerm.innerText != '') {
+      operationDisplay.innerText = button.innerText;
+    }
+
+  })
 })
 
