@@ -1,10 +1,11 @@
 :root {
   --background: white;
-  --cal-background: #ffb84c;
-  --num-btn: #2cd3e1;
-  --backspace-btn: #f266ab;
-  --clear-btn: #951636;
-  --operator-btn: #a459d1;
+  --cal-background: #8da336;
+  --num-btn: #415200;
+  --backspace-btn: #9b344e;
+  --clear-btn: #820222;
+  --operator-btn: #580f4f;
+  --equal-btn: #ffaa00;
 }
 
 html {
@@ -28,7 +29,7 @@ body {
 
 /* Display */
 .calculator-display {
-  background-color: #22668d;
+  background-color: black;
   color: white;
   margin: 0;
   border-radius: 10px 10px 0 0;
@@ -69,18 +70,19 @@ p {
 
 /* Buttons */
 button {
-  min-height: 50px;
+  min-height: 60px;
   background-color: var(--num-btn);
+  font-weight: bold;
   color: white;
   font-size: 20px;
   font-weight: 100;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 button:hover {
-  filter: brightness(150%);
+  filter: brightness(130%);
 }
 
 button:active {
@@ -115,7 +117,7 @@ button:focus {
 
 /* equal sign */
 .equal-sign {
-  background-color: rgb(126, 181, 44);
+  background-color: var(--equal-btn);
   grid-column: -2;
   grid-row: 2 / span 3;
 }
