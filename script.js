@@ -12,6 +12,23 @@ let firstTermValue = '';
 let secondTermValue = '';
 let operatorValue = '';
 
+// TERMS MANAGEMENT
+
+const updateFirstTerm = (newValue) => {
+  firstTermValue = newValue;
+  firstTerm.innerText = newValue;
+}
+
+const updateSecondTerm = (newValue) => {
+  secondTermValue = newValue;
+  secondTerm.innerText = newValue;
+}
+
+const updateOperator = (newValue) => {
+  operationDisplay.innerText = newValue;
+  operatorValue = newValue;
+}
+
 // CLEAR ACTIONS
 clearBtn.addEventListener("click", () => resetCalculator());
 
@@ -30,7 +47,7 @@ const clearTerms = () => {
 }
 
 const clearOperator = () => {
-  operatorValue = null;
+  operatorValue = '';
   operationDisplay.innerText = '';
 }
 
@@ -41,6 +58,32 @@ const resetCalculator = () => {
     clearOperator();
     // clearResult();
     clearDisplay();
+}
+
+const removeLastCharacter = (string) => string.slice(0, -1);
+
+const cancelLastDigit = () => {
+
+  if(firstTermValue){
+    if(firstTermValue.length > 1){
+      updateFirstTerm(removeLastCharacter(firstTermValue));
+    } else {
+      clearFirstTerm(firstTermValue);
+    }
+  } else if (operatorValue) {
+    clearOperator();
+
+    if (secondTermValue){
+
+      // Switch terms
+      updateFirstTerm(secondTermValue);
+      // firstTermValue = secondTermValue;
+      // firstTerm.innerText = firstTermValue;
+
+      clearSecondTerm();
+    }
+  }
+
 }
 
 // OPERATIONS
@@ -81,20 +124,26 @@ function operate(operator, num1, num2) {
 let equalSign = document.querySelector(".equal-sign");
 equalSign.addEventListener("click", function () {});
 
+// OPERATION TESTS
+
 // operate("+", 1, 3);
 // console.log(add(1, 2));
 // console.log(subtract(5, 2));
 // console.log(multiply(6, 3));
 // console.log(divide(4, 2));
 
-// INPUTS
+// INPUTS MANAGEMENT
+
 numbers.forEach(number => {
     number.addEventListener("click", () => {
         if (mockup.style.display = "block") {
             mockup.style.display = "none";
         }
-        firstTerm.innerText += number.innerText;
-        firstTermValue += number.innerText;
+        updateFirstTerm(firstTermValue + number.innerText);
+
+        // OLD
+        // firstTerm.innerText += number.innerText;
+        // firstTermValue += number.innerText;
     })
 })
 
@@ -102,12 +151,20 @@ numbers.forEach(number => {
 
 operations.forEach(button => {
     button.addEventListener("click", () => {
-        secondTerm.innerText = firstTerm.innerText;
-        secondTermValue = firstTermValue;
-        firstTerm.innerText = '';
-        firstTermValue = '';
-        operationDisplay.innerText = button.innerText;
-        operatorValue = button.innerText;
+
+        updateSecondTerm(firstTermValue);
+
+        //OLD
+        // secondTerm.innerText = firstTerm.innerText;
+        // secondTermValue = firstTermValue;
+
+        clearFirstTerm();
+
+        updateOperator(button.innerText);
+
+        // OLD
+        // operationDisplay.innerText = button.innerText;
+        // operatorValue = button.innerText;
     })
 })
 
