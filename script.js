@@ -90,9 +90,6 @@ const cancelLastDigit = () => {
     if (secondTermValue) {
       // Switch terms
       updateFirstTerm(secondTermValue);
-      // firstTermValue = secondTermValue;
-      // firstTerm.innerText = firstTermValue;
-
       clearSecondTerm();
     }
   }
@@ -145,34 +142,34 @@ equalSign.addEventListener("click", function () {});
 // console.log(divide(4, 2));
 
 // INPUTS MANAGEMENT
-number.addEventListener("click", () => {
-  if ((mockup.style.display = "block")) {
-    mockup.style.display = "none";
-  }
 
-  if (number.innerText == "." && firstTerm.innerText.includes(".")) return;
-  if (number.innerText == "." && firstTerm.innerText == "") {
-    if (secondTerm.innerText != "") return;
-    mockup.style.display = "block";
-  }
+numbers.forEach((number) => {
+  number.addEventListener("click", () => {
+    if ((mockup.style.display = "block")) {
+      mockup.style.display = "none";
+    }
 
-  updateFirstTerm(firstTermValue + number.innerText);
+    if (number.innerText == "." && firstTerm.innerText.includes(".")) return;
+    if (number.innerText == "." && firstTerm.innerText == "") {
+      if (secondTerm.innerText != "") return;
+      mockup.style.display = "block";
+    }
+
+    updateFirstTerm(firstTermValue + number.innerText);
+  });
 });
-
-//firstTermValue is the first numbers inputed and the secondTermValue are the second set of numbers after a usedd operator;
 
 operations.forEach((button) => {
   button.addEventListener("click", () => {
-    updateSecondTerm(firstTermValue);
 
-    //OLD
-    // secondTerm.innerText = firstTerm.innerText;
-    // secondTermValue = firstTermValue;
+    updateSecondTerm(firstTermValue);
 
     clearFirstTerm();
 
     if (secondTerm.innerText != "") {
       updateOperator(button.innerText);
     }
+
   });
+
 });
