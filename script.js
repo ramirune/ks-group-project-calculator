@@ -10,14 +10,23 @@ let secondTermValue = '';
 
 
 numbers.forEach(number => {
-    number.addEventListener("click", () => {
-        if (mockup.style.display = "block") {
-            mockup.style.display = "none";
-        }
-        firstTerm.innerText += number.innerText;
-        firstTermValue += number.innerText;
+  number.addEventListener("click", () => {
+    if (mockup.style.display = "block") {
+      mockup.style.display = "none";
+    }
 
-    })
+    if (number.innerText == '.' && firstTerm.innerText.includes('.')) return;
+    if (number.innerText == '.' && firstTerm.innerText == '') {
+      if (secondTerm.innerText != '') return;
+      mockup.style.display = "block";
+    }
+
+
+    firstTerm.innerText += number.innerText;
+
+    firstTermValue += number.innerText;
+
+  })
 })
 
 //firstTermValue is the first numbers inputed and the secondTermValue are the second set of numbers after a usedd operator;
@@ -26,13 +35,16 @@ numbers.forEach(number => {
 
 
 operations.forEach(button => {
-    button.addEventListener("click", () => {
-        secondTerm.innerText = firstTerm.innerText;
-        secondTermValue = firstTermValue;
-        firstTerm.innerText = '';
-        firstTermValue = '';
-        operationDisplay.innerText = button.innerText;
-    })
+  button.addEventListener("click", () => {
+    secondTerm.innerText = firstTerm.innerText;
+    secondTermValue = firstTermValue;
+    firstTerm.innerText = '';
+    firstTermValue = '';
+    if (secondTerm.innerText != '') {
+      operationDisplay.innerText = button.innerText;
+    }
+
+  })
 })
 
 
