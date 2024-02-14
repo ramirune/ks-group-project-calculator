@@ -1,6 +1,6 @@
 // DATA SETUP
-const numbers = document.querySelectorAll("#num");
-const operations = document.querySelectorAll("#operator");
+const numbers = document.querySelectorAll(".num");
+const operations = document.querySelectorAll(".operator");
 const secondTerm = document.querySelector("#displayPrevious");
 const firstTerm = document.querySelector("#displayCurrent");
 const operationDisplay = document.querySelector("#operationDisplay");
@@ -85,7 +85,9 @@ const removeLastCharacter = (number) => convertToString(number).slice(0, -1);
 const cancelLastDigit = () => {
   if (firstTermValue) {
     if (convertToString(firstTermValue).length > 1) {
-      let newFirstTermValue = convertToNumber(removeLastCharacter(firstTermValue));
+      let newFirstTermValue = convertToNumber(
+        removeLastCharacter(firstTermValue)
+      );
       updateFirstTerm(newFirstTermValue);
     } else {
       clearFirstTerm(firstTermValue);
@@ -120,7 +122,6 @@ const divide = (num1, num2) => {
 };
 
 const operate = (operator, num1, num2) => {
-
   num1 = convertToNumber(num1);
   num2 = convertToNumber(num2);
 
