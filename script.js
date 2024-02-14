@@ -12,15 +12,20 @@ let firstTermValue = "";
 let secondTermValue = "";
 let operatorValue = "";
 
+// UTILITIES
+
+const convertToNumber = (string) => Number(string);
+const convertToString = (number) => number.toString();
+
 // TERMS MANAGEMENT
 
 const updateFirstTerm = (newValue) => {
-  firstTermValue = Number(newValue);
+  firstTermValue = newValue;
   firstTerm.innerText = newValue;
 };
 
 const updateSecondTerm = (newValue) => {
-  secondTermValue = Number(newValue);
+  secondTermValue = newValue;
   secondTerm.innerText = newValue;
 };
 
@@ -75,12 +80,13 @@ const resetCalculator = () => {
   clearDisplay();
 };
 
-const removeLastCharacter = (string) => string.slice(0, -1);
+const removeLastCharacter = (number) => convertToString(number).slice(0, -1);
 
 const cancelLastDigit = () => {
   if (firstTermValue) {
-    if (firstTermValue.length > 1) {
-      updateFirstTerm(removeLastCharacter(firstTermValue));
+    if (convertToString(firstTermValue).length > 1) {
+      let newFirstTermValue = convertToNumber(removeLastCharacter(firstTermValue));
+      updateFirstTerm(newFirstTermValue);
     } else {
       clearFirstTerm(firstTermValue);
     }
@@ -114,6 +120,10 @@ const divide = (num1, num2) => {
 };
 
 const operate = (operator, num1, num2) => {
+
+  num1 = convertToNumber(num1);
+  num2 = convertToNumber(num2);
+
   switch (operator) {
     case "+":
       console.log(add(num1, num2));
