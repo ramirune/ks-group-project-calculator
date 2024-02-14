@@ -1,6 +1,6 @@
 // DATA SETUP
-const numbers = document.querySelectorAll("#num");
-const operations = document.querySelectorAll("#operator");
+const numbers = document.querySelectorAll(".num");
+const operations = document.querySelectorAll(".operator");
 const secondTerm = document.querySelector("#displayPrevious");
 const firstTerm = document.querySelector("#displayCurrent");
 const operationDisplay = document.querySelector("#operationDisplay");
@@ -11,6 +11,11 @@ const backSpaceBtn = document.querySelector("#back-space");
 let firstTermValue = "";
 let secondTermValue = "";
 let operatorValue = "";
+
+// UTILITIES
+
+const convertToNumber = (string) => Number(string);
+const convertToString = (number) => number.toString();
 
 // TERMS MANAGEMENT
 
@@ -75,12 +80,15 @@ const resetCalculator = () => {
   clearDisplay();
 };
 
-const removeLastCharacter = (string) => string.slice(0, -1);
+const removeLastCharacter = (number) => convertToString(number).slice(0, -1);
 
 const cancelLastDigit = () => {
   if (firstTermValue) {
-    if (firstTermValue.length > 1) {
-      updateFirstTerm(removeLastCharacter(firstTermValue));
+    if (convertToString(firstTermValue).length > 1) {
+      let newFirstTermValue = convertToNumber(
+        removeLastCharacter(firstTermValue)
+      );
+      updateFirstTerm(newFirstTermValue);
     } else {
       clearFirstTerm(firstTermValue);
     }
@@ -97,26 +105,32 @@ const cancelLastDigit = () => {
 
 // OPERATIONS
 
-function add(num1, num2) {
+const add = (num1, num2) => {
   return num1 + num2;
-}
+};
 
-function subtract(num1, num2) {
+const subtract = (num1, num2) => {
   return num1 - num2;
-}
+};
 
-function multiply(num1, num2) {
+const multiply = (num1, num2) => {
   return num1 * num2;
-}
+};
 
-function divide(num1, num2) {
+const divide = (num1, num2) => {
   return num1 / num2;
-}
+};
 
-function operate(operator, num1, num2) {
+const operate = (operator, num1, num2) => {
+  num1 = convertToNumber(num1);
+  num2 = convertToNumber(num2);
+
+  clearSecondTerm();
+  clearOperator();
+
   switch (operator) {
     case "+":
-      console.log(add(num1, num2));
+      updateFirstTerm(add(num1, num2));
       break;
     case "-":
       console.log(subtract(num1, num2));
@@ -128,10 +142,14 @@ function operate(operator, num1, num2) {
       console.log(divide(num1, num2));
       break;
   }
-}
+};
 
 let equalSign = document.querySelector(".equal-sign");
-equalSign.addEventListener("click", function () {});
+equalSign.addEventListener("click", function () {
+  console.log("first", firstTermValue);
+  console.log("second", secondTermValue);
+  operate(operatorValue, firstTermValue, secondTermValue);
+});
 
 // OPERATION TESTS
 
@@ -161,15 +179,10 @@ numbers.forEach((number) => {
 
 operations.forEach((button) => {
   button.addEventListener("click", () => {
-
-    updateSecondTerm(firstTermValue);
-
-    clearFirstTerm();
-
-    if (secondTerm.innerText != "") {
-      updateOperator(button.innerText);
+    if (firstTerm.innerText != "") {
+      updateSecondTerm(firstTermValue);
+      updateOperator(button.value);
+      clearFirstTerm();
     }
-
   });
-
 });

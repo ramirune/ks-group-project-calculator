@@ -25,39 +25,48 @@ body {
   background-color: var(--cal-background);
   width: 400px;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 /* Display */
 .calculator-display {
+  height: 100px;
+  padding: 10px;
   background-color: black;
-  color: white;
+
+  text-align: right;
+  grid-column: 1/-1;
   margin: 0;
   border-radius: 10px 10px 0 0;
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-around;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--operator-btn) black;
 }
 
 .calculator-display .previous {
-  display: flex;
-  align-items: center;
+  width: 100%;
+  font-family: "Lucida Sans", sans-serif;
+  color: rgb(163, 161, 161);
+  font-size: 0.8rem;
+  font-weight: thin;
 }
 
 .calculator-display .current {
-  display: flex;
-  align-items: center;
+  width: 100%;
+  font-family: "Lucida Sans", sans-serif;
+  color: white;
+  font-size: 1.2rem;
 }
 
 .calculator-display h1,
 h2,
 p {
   margin: 0;
-  padding: 10px;
-  font-family: "Lucida Sans", sans-serif;
-  font-size: 40px;
-  font-weight: 100;
-  overflow-x: auto;
 }
 
 /* calculator-buttons */
@@ -121,8 +130,6 @@ button:focus {
   grid-column: -2;
   grid-row: 2 / span 3;
 }
-
-
 
 /* for screen smaller than 600px */
 @media screen and (max-width: 600px) {
