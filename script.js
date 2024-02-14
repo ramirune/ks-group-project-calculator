@@ -165,12 +165,16 @@ numbers.forEach((number) => {
 
 operations.forEach((button) => {
   button.addEventListener("click", () => {
-    updateSecondTerm(firstTermValue);
 
-    clearFirstTerm();
 
-    if (secondTerm.innerText != "") {
+
+
+    if (firstTerm.innerText != "") {
+      updateSecondTerm(firstTermValue);
       updateOperator(button.value);
+      clearFirstTerm();
     }
+
+
   });
 });
