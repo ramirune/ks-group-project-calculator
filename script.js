@@ -124,9 +124,12 @@ const operate = (operator, num1, num2) => {
   num1 = convertToNumber(num1);
   num2 = convertToNumber(num2);
 
+  clearSecondTerm();
+  clearOperator();
+
   switch (operator) {
     case "+":
-      console.log(add(num1, num2));
+      updateFirstTerm(add(num1, num2));
       break;
     case "-":
       console.log(subtract(num1, num2));
@@ -175,16 +178,10 @@ numbers.forEach((number) => {
 
 operations.forEach((button) => {
   button.addEventListener("click", () => {
-
-
-
-
     if (firstTerm.innerText != "") {
       updateSecondTerm(firstTermValue);
       updateOperator(button.value);
       clearFirstTerm();
     }
-
-
   });
 });
