@@ -101,7 +101,7 @@ const cancelLastDigit = () => {
     return;
   }
 
-  if (operator){
+  if (operator) {
     clearOperator();
 
     return;
@@ -169,11 +169,11 @@ const operate = (operator, num1, num2) => {
 };
 
 const handleOperateCommand = () => {
-  
-  if(operator && firstTerm && secondTerm) {
+
+  if (operator && firstTerm && secondTerm) {
     operate(operator, firstTerm, secondTerm);
   } else {
-    console.log("ERROR: terms or operator missing")
+    return;
   }
 }
 
@@ -192,8 +192,8 @@ const numberInputHandler = (value) => {
 
   if (operator) {
 
-    if(value == '.' && isAlreadyDecimal(secondTerm)){
-      console.log("ERROR: Decimal already present");
+    if (value == '.' && isAlreadyDecimal(secondTerm)) {
+
       return;
     }
 
@@ -201,8 +201,8 @@ const numberInputHandler = (value) => {
     updateSecondTerm(newValue);
   } else {
 
-    if(value == '.' && isAlreadyDecimal(firstTerm)){
-      console.log("ERROR: Decimal already present");
+    if (value == '.' && isAlreadyDecimal(firstTerm)) {
+
       return;
     }
 
@@ -215,12 +215,12 @@ const operatorInputHandler = (newOperator) => {
 
   if (firstTerm) {
     // If the operator is already valorized it perform the operation and add the calculator after the result
-    if(operator){
+    if (operator) {
       handleOperateCommand();
     }
     updateOperator(newOperator);
   } else {
-    console.log("ERROR: firstTerm not present");
+    return;
   }
 };
 
@@ -248,7 +248,7 @@ const isClear = (value) => value == 'Escape';
 
 const handleKeyPress = (key) => {
   if (isANumberOrDecimalPoint(key)) {
-      numberInputHandler(key);
+    numberInputHandler(key);
   } else if (isAnOperator(key)) {
     operatorInputHandler(key);
   } else if (isEnterOrEqual(key)) {
@@ -260,7 +260,7 @@ const handleKeyPress = (key) => {
   }
 }
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
   let pressedKey = event.key;
   handleKeyPress(pressedKey);
 });
