@@ -30,16 +30,17 @@ const updateExpression = (firstTerm = "", operator = "", secondTerm = "") => {
 
 const updateFirstTerm = (newValue) => {
   firstTerm = newValue;
-  updateExpression(newValue);
+  updateExpression(firstTerm);
 };
 
 const updateSecondTerm = (newValue) => {
   secondTerm = newValue;
-  updateExpression(firstTerm, operator, newValue);
+  updateExpression(firstTerm, operator, secondTerm);
 };
 
 const updateOperator = (newOperator) => {
   operator = newOperator;
+  updateExpression(firstTerm, operator);
 };
 
 // CLEAR ACTIONS
@@ -168,6 +169,7 @@ const operate = (operator, num1, num2) => {
 };
 
 const handleOperateCommand = () => {
+  
   if(operator && firstTerm && secondTerm) {
     operate(operator, firstTerm, secondTerm);
   } else {
@@ -176,6 +178,7 @@ const handleOperateCommand = () => {
 }
 
 let equalSign = document.querySelector(".equal-sign");
+
 equalSign.addEventListener("click", function () {
   handleOperateCommand();
 });
@@ -208,25 +211,56 @@ const numberInputHandler = (value) => {
   }
 };
 
-const operatorInputHandler = (operator) => {
+const operatorInputHandler = (newOperator) => {
+
   if (firstTerm) {
-    updateOperator(operator);
-    updateExpression(firstTerm, operator);
+    // If the operator is already valorized it perform the operation and add the calculator after the result
+    if(operator){
+      handleOperateCommand();
+    }
+    updateOperator(newOperator);
   } else {
     console.log("ERROR: firstTerm not present");
   }
 };
 
-// Numbers
+// Numbers Input
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
     numberInputHandler(number.innerText);
   });
 });
 
-// Operators
+// Operators Input
 operations.forEach((button) => {
   button.addEventListener("click", () => {
     operatorInputHandler(button.value);
   });
+});
+
+// KEYBOARD SUPPORT
+
+const isANumberOrDecimalPoint = (value) => !isNaN(parseInt(value)) || value == '.';
+const isAnOperator = (value) => value == '+' || value == '-' || value == '*' || value == '/';
+const isEnterOrEqual = (value) => value == 'Enter' || value == '=';
+const isBackspace = (value) => value == 'Backspace';
+const isClear = (value) => value == 'Escape';
+
+const handleKeyPress = (key) => {
+  if (isANumberOrDecimalPoint(key)) {
+      numberInputHandler(key);
+  } else if (isAnOperator(key)) {
+    operatorInputHandler(key);
+  } else if (isEnterOrEqual(key)) {
+    handleOperateCommand(key);
+  } else if (isBackspace(key)) {
+    cancelLastDigit();
+  } else if (isClear(key)) {
+    resetCalculator();
+  }
+}
+
+document.addEventListener("keydown", function(event) {
+  let pressedKey = event.key;
+  handleKeyPress(pressedKey);
 });
