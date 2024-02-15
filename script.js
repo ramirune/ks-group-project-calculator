@@ -1,14 +1,8 @@
-// DATA SETUP
-const numbers = document.querySelectorAll("#num");
-const operations = document.querySelectorAll("#operator");
-// const secondTerm = document.querySelector("#displayPrevious");
-// const firstTerm = document.querySelector("#displayCurrent");
-const operationDisplay = document.querySelector("#operationDisplay");
-const mockup = document.querySelector("#mockup");
-const clearBtn = document.querySelector("#clear-btn");
-const backSpaceBtn = document.querySelector("#back-space");
 
-// APP
+// DATA SETUP
+
+const numbers = document.querySelectorAll(".num");
+const operations = document.querySelectorAll(".operator");
 
 let firstTerm = "";
 let secondTerm = "";
@@ -20,6 +14,9 @@ const convertToNumber = (string) => Number(string);
 const convertToString = (number) => number.toString();
 
 // DISPLAY MANAGEMENT
+
+const clearBtn = document.querySelector("#clear-btn");
+const backSpaceBtn = document.querySelector("#back-space");
 
 const expression = document.querySelector("#expression");
 expression.innerText = "0";
