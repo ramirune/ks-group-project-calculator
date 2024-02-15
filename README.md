@@ -1,5 +1,3 @@
-live at: https://ramirune.github.io/ks-group-project-calculator/
-
 # Basic Calculator
 
 [Calculator Demo preview](https://ramirune.github.io/ks-group-project-calculator/)
