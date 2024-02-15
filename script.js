@@ -1,32 +1,48 @@
 // DATA SETUP
 const numbers = document.querySelectorAll("#num");
 const operations = document.querySelectorAll("#operator");
-const secondTerm = document.querySelector("#displayPrevious");
-const firstTerm = document.querySelector("#displayCurrent");
+// const secondTerm = document.querySelector("#displayPrevious");
+// const firstTerm = document.querySelector("#displayCurrent");
 const operationDisplay = document.querySelector("#operationDisplay");
 const mockup = document.querySelector("#mockup");
 const clearBtn = document.querySelector("#clear-btn");
 const backSpaceBtn = document.querySelector("#back-space");
 
-let firstTermValue = "";
-let secondTermValue = "";
-let operatorValue = "";
+// APP
+
+let firstTerm = "";
+let secondTerm = "";
+let operator = "";
+
+// UTILITIES
+
+const convertToNumber = (string) => Number(string);
+const convertToString = (number) => number.toString();
+
+// DISPLAY MANAGEMENT
+
+const expression = document.querySelector("#expression");
+expression.innerText = "0";
+
+const updateExpression = (firstTerm = "", operator = "", secondTerm = "") => {
+  let newExpression = `${firstTerm} ${operator} ${secondTerm}`;
+  expression.innerText = newExpression;
+};
 
 // TERMS MANAGEMENT
 
 const updateFirstTerm = (newValue) => {
-  firstTermValue = newValue;
-  firstTerm.innerText = newValue;
+  firstTerm = newValue;
+  updateExpression(newValue);
 };
 
 const updateSecondTerm = (newValue) => {
-  secondTermValue = newValue;
-  secondTerm.innerText = newValue;
+  secondTerm = newValue;
+  updateExpression(firstTerm, operator, newValue);
 };
 
-const updateOperator = (newValue) => {
-  operationDisplay.innerText = newValue;
-  operatorValue = newValue;
+const updateOperator = (newOperator) => {
+  operator = newOperator;
 };
 
 // CLEAR ACTIONS
@@ -34,26 +50,23 @@ const updateOperator = (newValue) => {
 backSpaceBtn.addEventListener("click", () => cancelLastDigit());
 clearBtn.addEventListener("click", () => resetCalculator());
 
-const resetDefaultDisplay = () => (mockup.style.display = "block");
+const resetDefaultDisplay = () => expression.innerText = "0";
 
 const clearDisplay = () => {
-  firstTerm.innerText = "";
-  secondTerm.innerText = "";
-  operationDisplay.innerText = null;
-
+  // Clear the expression
+  updateExpression();
+  // Put the mock value
   resetDefaultDisplay();
 };
 
 const clearFirstTerm = () => {
-  firstTermValue = "";
-  firstTerm.innerText = "";
-
-  if (!operatorValue && !secondTermValue) resetDefaultDisplay();
+  firstTerm = "";
+  clearDisplay();
 };
 
 const clearSecondTerm = () => {
-  secondTermValue = "";
-  secondTerm.innerText = "";
+  secondTerm = "";
+  updateExpression(firstTerm, operator);
 };
 
 const clearTerms = () => {
@@ -62,8 +75,8 @@ const clearTerms = () => {
 };
 
 const clearOperator = () => {
-  operatorValue = "";
-  operationDisplay.innerText = "";
+  operator = "";
+  updateExpression(firstTerm);
 };
 
 const clearResult = () => (result = null);
@@ -78,98 +91,137 @@ const resetCalculator = () => {
 const removeLastCharacter = (string) => string.slice(0, -1);
 
 const cancelLastDigit = () => {
-  if (firstTermValue) {
-    if (firstTermValue.length > 1) {
-      updateFirstTerm(removeLastCharacter(firstTermValue));
-    } else {
-      clearFirstTerm(firstTermValue);
-    }
-  } else if (operatorValue) {
-    clearOperator();
 
-    if (secondTermValue) {
-      // Switch terms
-      updateFirstTerm(secondTermValue);
+  if (secondTerm) {
+    if (secondTerm.length > 1) {
+      let newSecondTermValue = removeLastCharacter(secondTerm);
+      updateSecondTerm(newSecondTermValue);
+    } else {
       clearSecondTerm();
     }
+
+    return;
   }
+
+  if (operator){
+    clearOperator();
+
+    return;
+  }
+
+  if (firstTerm) {
+
+    if (firstTerm.length > 1) {
+      let newFirstTermValue = removeLastCharacter(firstTerm);
+      updateFirstTerm(newFirstTermValue);
+    } else {
+      clearFirstTerm();
+    }
+
+    return;
+  }
+
 };
 
 // OPERATIONS
 
-function add(num1, num2) {
+const add = (num1, num2) => {
   return num1 + num2;
-}
+};
 
-function subtract(num1, num2) {
+const subtract = (num1, num2) => {
   return num1 - num2;
-}
+};
 
-function multiply(num1, num2) {
+const multiply = (num1, num2) => {
   return num1 * num2;
-}
+};
 
-function divide(num1, num2) {
+const divide = (num1, num2) => {
   return num1 / num2;
-}
+};
 
-function operate(operator, num1, num2) {
+const operate = (operator, num1, num2) => {
+  num1 = convertToNumber(num1);
+  num2 = convertToNumber(num2);
+
+  let result;
+
   switch (operator) {
     case "+":
-      console.log(add(num1, num2));
+      result = add(num1, num2);
       break;
     case "-":
-      console.log(subtract(num1, num2));
+      result = subtract(num1, num2);
       break;
     case "*":
-      console.log(multiply(num1, num2));
+      result = multiply(num1, num2);
       break;
     case "/":
-      console.log(divide(num1, num2));
+      result = divide(num1, num2);
       break;
   }
-}
+
+  clearSecondTerm();
+  clearOperator();
+
+  // The calculation result become the new first term
+  updateFirstTerm(result);
+  updateExpression(result);
+};
 
 let equalSign = document.querySelector(".equal-sign");
-equalSign.addEventListener("click", function () {});
-
-// OPERATION TESTS
-
-// operate("+", 1, 3);
-// console.log(add(1, 2));
-// console.log(subtract(5, 2));
-// console.log(multiply(6, 3));
-// console.log(divide(4, 2));
+equalSign.addEventListener("click", function () {
+  operate(operator, firstTerm, secondTerm);
+});
 
 // INPUTS MANAGEMENT
 
+const isAlreadyDecimal = (term) => term.includes('.');
+
+const numberInputHandler = (value) => {
+  let newValue;
+
+  if (operator) {
+
+    if(value == '.' && isAlreadyDecimal(secondTerm)){
+      console.log("ERROR: Decimal already present");
+      return;
+    }
+
+    newValue = secondTerm + value;
+    updateSecondTerm(newValue);
+  } else {
+
+    if(value == '.' && isAlreadyDecimal(firstTerm)){
+      console.log("ERROR: Decimal already present");
+      return;
+    }
+
+    newValue = firstTerm + value;
+    updateFirstTerm(newValue);
+  }
+};
+
+const operatorInputHandler = (operator) => {
+  if (firstTerm) {
+    updateOperator(operator);
+    updateExpression(firstTerm, operator);
+  } else {
+    console.log("ERROR: firstTerm not present");
+  }
+};
+
+// Numbers
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    if ((mockup.style.display = "block")) {
-      mockup.style.display = "none";
-    }
-
-    if (number.innerText == "." && firstTerm.innerText.includes(".")) return;
-    if (number.innerText == "." && firstTerm.innerText == "") {
-      if (secondTerm.innerText != "") return;
-      mockup.style.display = "block";
-    }
-
-    updateFirstTerm(firstTermValue + number.innerText);
+    numberInputHandler(number.innerText);
   });
 });
 
+// Operators
 operations.forEach((button) => {
   button.addEventListener("click", () => {
-
-    updateSecondTerm(firstTermValue);
-
-    clearFirstTerm();
-
-    if (secondTerm.innerText != "") {
-      updateOperator(button.innerText);
-    }
-
+    operatorInputHandler(button.value);
   });
-
 });

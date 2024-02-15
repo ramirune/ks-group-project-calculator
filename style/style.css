@@ -32,6 +32,7 @@ body {
   background-color: black;
   color: white;
   margin: 0;
+  padding: 1em;
   border-radius: 10px 10px 0 0;
   display: flex;
   align-items: end;
