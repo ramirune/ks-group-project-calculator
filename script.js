@@ -170,9 +170,17 @@ const operate = (operator, num1, num2) => {
   updateExpression(result);
 };
 
+const handleOperateCommand = () => {
+  if(operator && firstTerm && secondTerm) {
+    operate(operator, firstTerm, secondTerm);
+  } else {
+    console.log("ERROR: terms or operator missing")
+  }
+}
+
 let equalSign = document.querySelector(".equal-sign");
 equalSign.addEventListener("click", function () {
-  operate(operator, firstTerm, secondTerm);
+  handleOperateCommand();
 });
 
 // INPUTS MANAGEMENT
