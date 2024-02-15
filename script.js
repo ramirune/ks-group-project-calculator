@@ -38,7 +38,14 @@ const updateSecondTerm = (newValue) => {
 };
 
 const updateOperator = (newOperator) => {
-  operator = newOperator;
+  if (newOperator === "*") {
+    operator = "x";
+  } else if (newOperator === "/") {
+    operator = "÷";
+  } else {
+    operator = newOperator;
+  }
+
   updateExpression(firstTerm, operator);
 };
 
@@ -170,6 +177,13 @@ const operate = (operator, num1, num2) => {
 
 const handleOperateCommand = () => {
   if (operator && firstTerm && secondTerm) {
+    if (operator === "x") {
+      operator = "*";
+    } else if (operator === "÷") {
+      operator = "/";
+    } else {
+      operator = operator;
+    }
     operate(operator, firstTerm, secondTerm);
   } else {
     console.log("ERROR: terms or operator missing");
