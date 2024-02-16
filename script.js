@@ -164,8 +164,7 @@ const operate = (operator, num1, num2) => {
   }
 
   if (result === Infinity || result === NaN) {
-    resetCalculator();
-    updateExpression("Haha nice try!")
+    alert("Invalid operation. Were you trying to divide by zero?");
   } else {
     clearSecondTerm();
     clearOperator();
