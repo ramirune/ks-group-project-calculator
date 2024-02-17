@@ -49,7 +49,7 @@ body {
   color: white;
   font-size: 1.8rem;
 }
-/* calculator-buttons */
+
 .calculator-buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -74,19 +74,21 @@ button:hover {
 button:active {
   transform: translateY(2px);
 }
+
 button:focus {
   outline: none;
 }
-/* operator buttons */
+
 .operator {
   background-color: var(--operator-btn);
   color: white;
   font-size: 30px;
 }
+
 .back-space {
   background-color: var(--backspace-btn);
 }
-/* clear button */
+
 .clear {
   background-color: var(--clear-btn);
   color: white;
@@ -95,13 +97,13 @@ button:focus {
 .clear:hover {
   background-color: darkred;
 }
-/* equal sign */
+
 .equal-sign {
   background-color: var(--equal-btn);
   grid-column: -2;
   grid-row: 2 / span 3;
 }
-/* for screen smaller than 600px */
+
 @media screen and (max-width: 600px) {
   .calculator {
     width: 95%;

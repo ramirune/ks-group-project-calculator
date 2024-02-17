@@ -1,5 +1,3 @@
-// DATA SETUP
-
 const numbers = document.querySelectorAll(".num");
 const operations = document.querySelectorAll(".operator");
 
@@ -7,12 +5,8 @@ let firstTerm = "";
 let secondTerm = "";
 let operator = "";
 
-// UTILITIES
-
 const convertToNumber = (string) => Number(string);
 const convertToString = (number) => number.toString();
-
-// DISPLAY MANAGEMENT
 
 const clearBtn = document.querySelector("#clear-btn");
 const backSpaceBtn = document.querySelector("#back-space");
@@ -24,8 +18,6 @@ const updateExpression = (firstTerm = "", operator = "", secondTerm = "") => {
   let newExpression = `${firstTerm} ${operator} ${secondTerm}`;
   expression.innerText = newExpression;
 };
-
-// TERMS MANAGEMENT
 
 const updateFirstTerm = (newValue) => {
   firstTerm = newValue;
@@ -49,17 +41,13 @@ const updateOperator = (newOperator) => {
   updateExpression(firstTerm, operator);
 };
 
-// CLEAR ACTIONS
-
 backSpaceBtn.addEventListener("click", () => cancelLastDigit());
 clearBtn.addEventListener("click", () => resetCalculator());
 
 const resetDefaultDisplay = () => (expression.innerText = "0");
 
 const clearDisplay = () => {
-  // Clear the expression
   updateExpression();
-  // Put the mock value
   resetDefaultDisplay();
 };
 
@@ -124,8 +112,6 @@ const cancelLastDigit = () => {
   }
 };
 
-// OPERATIONS
-
 const add = (num1, num2) => {
   return num1 + num2;
 };
@@ -165,12 +151,11 @@ const operate = (operator, num1, num2) => {
 
   if (result === Infinity || result === NaN) {
     resetCalculator();
-    updateExpression("Haha nice try!")
+    updateExpression("Haha nice try!");
   } else {
     clearSecondTerm();
     clearOperator();
 
-    // The calculation result become the new first term
     updateFirstTerm(result);
     updateExpression(result);
   }
@@ -196,8 +181,6 @@ let equalSign = document.querySelector(".equal-sign");
 equalSign.addEventListener("click", function () {
   handleOperateCommand();
 });
-
-// INPUTS MANAGEMENT
 
 const isAlreadyDecimal = (term) => term.includes(".");
 
@@ -225,7 +208,6 @@ const numberInputHandler = (value) => {
 
 const operatorInputHandler = (newOperator) => {
   if (firstTerm) {
-    // If the operator is already valorized it perform the operation and add the calculator after the result
     if (operator) {
       handleOperateCommand();
     }
@@ -235,21 +217,17 @@ const operatorInputHandler = (newOperator) => {
   }
 };
 
-// Numbers Input
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
     numberInputHandler(number.innerText);
   });
 });
 
-// Operators Input
 operations.forEach((button) => {
   button.addEventListener("click", () => {
     operatorInputHandler(button.value);
   });
 });
-
-// KEYBOARD SUPPORT
 
 const isANumberOrDecimalPoint = (value) =>
   !isNaN(parseInt(value)) || value == ".";
